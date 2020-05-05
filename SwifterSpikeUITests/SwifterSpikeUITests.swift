@@ -51,7 +51,7 @@ class SwifterSpikeUITests: XCTestCase {
     
     // MARK: - Tests
     
-    func testGETSuccess() {
+    func testGET_success() {
         server.addJSONStub(url: Paths.get, filename: "get_success", method: .GET)
         
         app.buttons["Send GET"].tap()
@@ -59,9 +59,15 @@ class SwifterSpikeUITests: XCTestCase {
         XCTAssertTrue(app.buttons["My Mock GET Response"].waitForExistence(timeout: 5.0))
     }
     
-    // TODO: testGETFailed
+    func testGET_badJSON() {
+        server.addJSONStub(url: Paths.get, filename: "get_badJSON", method: .GET)
+        
+        app.buttons["Send GET"].tap()
+        
+        XCTAssertTrue(app.buttons["GET Request Failed: Bad JSON"].waitForExistence(timeout: 5.0))
+    }
     
-    func testPOSTSuccess() {
+    func testPOST_success() {
         server.addJSONStub(url: Paths.post, filename: "post_success", method: .POST)
         
         app.buttons["Send POST"].tap()
@@ -69,6 +75,12 @@ class SwifterSpikeUITests: XCTestCase {
         XCTAssertTrue(app.buttons["My Mock POST Response"].waitForExistence(timeout: 5.0))
     }
     
-    // TODO: testPOSTFailed
+    func testPOST_badJSON() {
+        server.addJSONStub(url: Paths.post, filename: "post_badJSON", method: .POST)
+        
+        app.buttons["Send POST"].tap()
+        
+        XCTAssertTrue(app.buttons["POST Request Failed: Bad JSON"].waitForExistence(timeout: 5.0))
+    }
     
 }
