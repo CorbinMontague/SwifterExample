@@ -35,8 +35,7 @@ class MockServer {
     
     func setUp() {
         setupInitialStubs()
-        try! server.start(8080)
-        
+        try! server.start()
     }
     
     func tearDown() {

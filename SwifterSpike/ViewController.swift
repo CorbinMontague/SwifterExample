@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    // MARK: - Subviews
+    
     private lazy var getButton: UIButton = {
         let button = UIButton()
         button.setTitle("Send GET", for: .normal)
@@ -151,7 +153,7 @@ class ViewController: UIViewController {
                     return
                 }
                 
-                // Check for Error or non successful repsonse
+                // Check for Error
                 if let error = error {
                     print("Error took place \(error)")
                     self?.postButton.setTitle("POST Request Failed: \(error.localizedDescription)", for: .normal)
@@ -175,6 +177,8 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
+    
+    // MARK: - Helpers
     
     private func parseJSON(data: Data) -> ToDoResponse? {
         
