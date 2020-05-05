@@ -13,10 +13,8 @@ class SwifterSpikeUITests: XCTestCase {
 
     // MARK: - Properties
     
-    // Creates a tiny http server on the device
     let server = MockServer()
     
-    /// An XCUIApplication instance that can be used across all UI tests without the need to initialize a new XCUIApplication in every test function
     var app: XCUIApplication!
     
     var launchEnvironment: [String: String]?
@@ -54,10 +52,23 @@ class SwifterSpikeUITests: XCTestCase {
     // MARK: - Tests
     
     func testGETSuccess() {
-        server.addJSONStub(url: Paths.get, filename: "success")
+        server.addJSONStub(url: Paths.get, filename: "get_success")
         
-        app.buttons["Send Request"].tap()
+        app.buttons["Send GET"].tap()
         
-        XCTAssertTrue(app.buttons["Request Succeeded"].waitForExistence(timeout: 20.0))
+        XCTAssertTrue(app.buttons["GET Request Succeeded"].waitForExistence(timeout: 5.0))
     }
+    
+    // TODO: testGETFailed
+    
+    func testPOSTSuccess() {
+        server.addJSONStub(url: Paths.post, filename: "post_success")
+        
+        app.buttons["Send POST"].tap()
+        
+        XCTAssertTrue(app.buttons["POST Request Succeeded"].waitForExistence(timeout: 5.0))
+    }
+    
+    // TODO: testPOSTFailed
+    
 }
