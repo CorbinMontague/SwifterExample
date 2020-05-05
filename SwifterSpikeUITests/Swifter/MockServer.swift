@@ -49,7 +49,7 @@ class MockServer {
         }
     }
     
-    func addJSONStub(url: String, filename: String, method: HTTPMethod = .GET) {
+    func addJSONStub(url: String, filename: String, method: HTTPMethod) {
         let testBundle = Bundle(for: type(of: self))
         let filePath = testBundle.path(forResource: filename, ofType: "json")
         let fileUrl = URL(fileURLWithPath: filePath!)
@@ -71,7 +71,7 @@ class MockServer {
     }
     
     /// Adds a new stub for the given url and method with a custom request handler
-    func addStub(url: String, method: HTTPMethod = .GET, requestHandler: @escaping ((HttpRequest) -> HttpResponse)) {
+    func addStub(url: String, method: HTTPMethod, requestHandler: @escaping ((HttpRequest) -> HttpResponse)) {
         switch method {
         case .GET:
             server.GET[url] = requestHandler

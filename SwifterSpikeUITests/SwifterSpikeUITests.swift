@@ -52,7 +52,7 @@ class SwifterSpikeUITests: XCTestCase {
     // MARK: - Tests
     
     func testGETSuccess() {
-        server.addJSONStub(url: Paths.get, filename: "get_success")
+        server.addJSONStub(url: Paths.get, filename: "get_success", method: .GET)
         
         app.buttons["Send GET"].tap()
         
@@ -62,11 +62,11 @@ class SwifterSpikeUITests: XCTestCase {
     // TODO: testGETFailed
     
     func testPOSTSuccess() {
-        server.addJSONStub(url: Paths.post, filename: "post_success")
+        server.addJSONStub(url: Paths.post, filename: "post_success", method: .POST)
         
         app.buttons["Send POST"].tap()
         
-        XCTAssertTrue(app.buttons["POST Request Succeeded"].waitForExistence(timeout: 5.0))
+        XCTAssertTrue(app.buttons["My Mock POST Response"].waitForExistence(timeout: 5.0))
     }
     
     // TODO: testPOSTFailed

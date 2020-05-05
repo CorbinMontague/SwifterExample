@@ -8,9 +8,16 @@
 
 import Foundation
 
-struct ToDoResponseModel: Codable {
+struct ToDoResponse: Codable {
     let userId: Int
-    let id: Int
     let title: String
     let completed: Bool
+    let id: Int?
+    
+    init(userId: Int, title: String, completed: Bool, id: Int? = nil) {
+        self.userId = userId
+        self.title = title
+        self.completed = completed
+        self.id = id
+    }
 }

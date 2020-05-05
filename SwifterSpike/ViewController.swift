@@ -72,7 +72,7 @@ class ViewController: UIViewController {
         var url: URL?
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
             appDelegate.isUITesting {
-            url = URL(string: "https://localhost:8080/todos/1")
+            url = URL(string: "http://localhost:8080/todos/1")
         } else {
             url = URL(string: "https://jsonplaceholder.typicode.com/todos/1")
         }
@@ -111,14 +111,14 @@ class ViewController: UIViewController {
         task.resume()
     }
     
-    @objc private func postButtonTapped() {
+    @objc private func postButtonTapped() throws {
         print("postButtonTapped")
         
         // Create URL
         var url: URL?
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
             appDelegate.isUITesting {
-            url = URL(string: "https://localhost:8080/todos")
+            url = URL(string: "http://localhost:8080/todos")
         } else {
             url = URL(string: "https://jsonplaceholder.typicode.com/todos")
         }
@@ -127,33 +127,46 @@ class ViewController: UIViewController {
         // Create URLRequest
         var request = URLRequest(url: requestUrl)
         request.httpMethod = "POST"
-        request.httpBody = "userId=300&title=My urgent task&completed=false".data(using: String.Encoding.utf8);
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let newTodoItem = ToDoResponse(userId: 300, title: "POST JSON", completed: true)
+        let jsonData = try JSONEncoder().encode(newTodoItem)
+        request.httpBody = jsonData
         
         // Send HTTP Request
         let task = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             DispatchQueue.main.async {
+                
                 // Check for Error
                 if let error = error {
                     print("Error took place \(error)")
-                    self?.postButton.setTitle("POST Request Failed", for: .normal)
+                    self?.postButton.setTitle("POST Request Failed: \(error.localizedDescription)", for: .normal)
                     return
                 }
                 
-                // Convert HTTP Response Data to a String
-                if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
-                    self?.postButton.setTitle("POST Request Succeeded", for: .normal)
+                // Check for Data
+                guard let data = data, let dataString = String(data: data, encoding: .utf8) else {
+                    self?.postButton.setTitle("POST Request Failed: No Data", for: .normal)
+                    return
                 }
+                
+                // Parse the JSON
+                print("Response data string:\n \(dataString)")
+                guard let todoItem = self?.parseJSON(data: data) else {
+                    self?.postButton.setTitle("POST Request Failed: Bad JSON", for: .normal)
+                    return
+                }
+                self?.postButton.setTitle(todoItem.title, for: .normal)
             }
         }
         task.resume()
     }
     
-    private func parseJSON(data: Data) -> ToDoResponseModel? {
+    private func parseJSON(data: Data) -> ToDoResponse? {
         
-        var returnValue: ToDoResponseModel?
+        var returnValue: ToDoResponse?
         do {
-            returnValue = try JSONDecoder().decode(ToDoResponseModel.self, from: data)
+            returnValue = try JSONDecoder().decode(ToDoResponse.self, from: data)
         } catch {
             print("Error: \(error.localizedDescription).")
         }
