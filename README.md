@@ -1,0 +1,1 @@
+A working example of how to leverage [Swifter](https://github.com/httpswift/swifter) to mock network requests on iOS. This is particularly useful while running Unit or UI tests to avoid hitting live endpoints, allowing you to write more stable tests against mock data.
