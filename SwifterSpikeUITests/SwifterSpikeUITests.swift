@@ -56,7 +56,7 @@ class SwifterSpikeUITests: XCTestCase {
         
         app.buttons["Send GET"].tap()
         
-        XCTAssertTrue(app.buttons["GET Request Succeeded"].waitForExistence(timeout: 5.0))
+        XCTAssertTrue(app.buttons["My Mock GET Response"].waitForExistence(timeout: 5.0))
     }
     
     // TODO: testGETFailed

@@ -85,18 +85,27 @@ class ViewController: UIViewController {
         // Send HTTP Request
         let task = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             DispatchQueue.main.async {
+                
                 // Check for Error
                 if let error = error {
                     print("Error took place \(error)")
-                    self?.getButton.setTitle("GET Request Failed", for: .normal)
+                    self?.getButton.setTitle("GET Request Failed: \(error.localizedDescription)", for: .normal)
                     return
                 }
                 
-                // Convert HTTP Response Data to a simple String
-                if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                    print("Response data string:\n \(dataString)")
-                    self?.getButton.setTitle("GET Request Succeeded", for: .normal)
+                // Check for Data
+                guard let data = data, let dataString = String(data: data, encoding: .utf8) else {
+                    self?.getButton.setTitle("GET Request Failed: No Data", for: .normal)
+                    return
                 }
+                
+                // Parse the JSON
+                print("Response data string:\n \(dataString)")
+                guard let todoItem = self?.parseJSON(data: data) else {
+                    self?.getButton.setTitle("GET Request Failed: Bad JSON", for: .normal)
+                    return
+                }
+                self?.getButton.setTitle(todoItem.title, for: .normal)
             }
         }
         task.resume()
@@ -140,4 +149,15 @@ class ViewController: UIViewController {
         task.resume()
     }
     
+    private func parseJSON(data: Data) -> ToDoResponseModel? {
+        
+        var returnValue: ToDoResponseModel?
+        do {
+            returnValue = try JSONDecoder().decode(ToDoResponseModel.self, from: data)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+        
+        return returnValue
+    }
 }
