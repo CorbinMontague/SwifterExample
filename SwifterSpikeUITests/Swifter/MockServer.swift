@@ -30,13 +30,11 @@ class MockServer {
     
     var server: HttpServer = {
         let server = HttpServer()
-//        server.listenAddressIPv4 = "127.0.0.1"
         return server
     }()
     
     func setUp() {
         setupInitialStubs()
-//        try! server.start(8080, forceIPv4: true, priority: .background)
         try! server.start(8080)
         
     }
@@ -56,6 +54,7 @@ class MockServer {
         let filePath = testBundle.path(forResource: filename, ofType: "json")
         let fileUrl = URL(fileURLWithPath: filePath!)
         let data = try! Data(contentsOf: fileUrl, options: .uncached)
+        
         // Looking for a file and converting it to JSON
         let json = dataToJSON(data: data)
         
