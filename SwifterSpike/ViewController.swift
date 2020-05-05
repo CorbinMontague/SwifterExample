@@ -73,8 +73,8 @@ class ViewController: UIViewController {
         // Create URL
         var url: URL?
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-            appDelegate.isUITesting {
-            url = URL(string: "http://localhost:8080/todos/1")
+            appDelegate.isUITesting, let port = appDelegate.port {
+            url = URL(string: "http://localhost:\(port)/todos/1")
         } else {
             url = URL(string: "https://jsonplaceholder.typicode.com/todos/1")
         }
@@ -126,8 +126,8 @@ class ViewController: UIViewController {
         // Create URL
         var url: URL?
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-            appDelegate.isUITesting {
-            url = URL(string: "http://localhost:8080/todos")
+            appDelegate.isUITesting, let port = appDelegate.port {
+            url = URL(string: "http://localhost:\(port)/todos")
         } else {
             url = URL(string: "https://jsonplaceholder.typicode.com/todos")
         }

@@ -15,6 +15,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var isUITesting: Bool {
         return CommandLine.arguments.contains("--uitesting")
     }
+    
+    /// The localhost port to mock requests against
+    var port: Int? {
+        // it sucks we have to search through these linearly, but there are never very many CommandLine args when testing anyway.
+        for arg in CommandLine.arguments {
+            if arg.hasPrefix("--port") {
+                let portString = String(arg.suffix(4))
+                return Int(portString)
+            }
+        }
+        return nil
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

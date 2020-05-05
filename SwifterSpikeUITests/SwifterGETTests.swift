@@ -1,5 +1,5 @@
 //
-//  SwifterSpikeUITests.swift
+//  SwifterGETTests.swift
 //  SwifterSpikeUITests
 //
 //  Created by Corbin Montague on 5/5/20.
@@ -9,7 +9,7 @@
 import Swifter
 import XCTest
 
-class SwifterSpikeUITests: XCTestCase {
+class SwifterGETTests: XCTestCase {
 
     // MARK: - Properties
     
@@ -21,7 +21,6 @@ class SwifterSpikeUITests: XCTestCase {
     
     struct Paths {
         static let get = "/todos/1"
-        static let post = "/todos"
     }
     
     // MARK: - XCTestCase
@@ -29,13 +28,17 @@ class SwifterSpikeUITests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        // Setup the Swifter server
+        server.setUp()
+        
         // Setup the app for ui testing against localhost
         app = XCUIApplication()
         app.launchEnvironment["animations"] = "0"
         app.launchArguments.append("--uitesting")
         
-        // Setup the Swifter server
-        server.setUp()
+        if let port = server.port {
+            app.launchArguments.append("--port:\(port)")
+        }
         
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
@@ -69,38 +72,32 @@ class SwifterSpikeUITests: XCTestCase {
         XCTAssertTrue(app.buttons["GET Request Failed: \(HttpResponse.internalServerError.statusCode)"].waitForExistence(timeout: 5.0))
     }
     
+    func testGET_notFound() {
+        server.addStub(url: Paths.get, method: .GET) { _ in
+            return HttpResponse.notFound
+        }
+
+        app.buttons["Send GET"].tap()
+
+        XCTAssertTrue(app.buttons["GET Request Failed: \(HttpResponse.notFound.statusCode)"].waitForExistence(timeout: 5.0))
+    }
+    
+    func testGET_forbidden() {
+        server.addStub(url: Paths.get, method: .GET) { _ in
+            return HttpResponse.forbidden
+        }
+
+        app.buttons["Send GET"].tap()
+
+        XCTAssertTrue(app.buttons["GET Request Failed: \(HttpResponse.forbidden.statusCode)"].waitForExistence(timeout: 5.0))
+    }
+    
     func testGET_badJSON() {
         server.addJSONStub(url: Paths.get, filename: "get_badJSON", method: .GET)
         
         app.buttons["Send GET"].tap()
         
         XCTAssertTrue(app.buttons["GET Request Failed: Bad JSON"].waitForExistence(timeout: 5.0))
-    }
-    
-    func testPOST_success() {
-        server.addJSONStub(url: Paths.post, filename: "post_success", method: .POST)
-        
-        app.buttons["Send POST"].tap()
-        
-        XCTAssertTrue(app.buttons["My Mock POST Response"].waitForExistence(timeout: 5.0))
-    }
-    
-    func testPOST_internalServerError() {
-        server.addStub(url: Paths.post, method: .POST) { _ in
-            return HttpResponse.internalServerError
-        }
-
-        app.buttons["Send POST"].tap()
-
-        XCTAssertTrue(app.buttons["POST Request Failed: \(HttpResponse.internalServerError.statusCode)"].waitForExistence(timeout: 5.0))
-    }
-    
-    func testPOST_badJSON() {
-        server.addJSONStub(url: Paths.post, filename: "post_badJSON", method: .POST)
-        
-        app.buttons["Send POST"].tap()
-        
-        XCTAssertTrue(app.buttons["POST Request Failed: Bad JSON"].waitForExistence(timeout: 5.0))
     }
     
 }
