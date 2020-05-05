@@ -59,6 +59,16 @@ class SwifterSpikeUITests: XCTestCase {
         XCTAssertTrue(app.buttons["My Mock GET Response"].waitForExistence(timeout: 5.0))
     }
     
+    func testGET_internalServerError() {
+        server.addStub(url: Paths.get, method: .GET) { _ in
+            return HttpResponse.internalServerError
+        }
+
+        app.buttons["Send GET"].tap()
+
+        XCTAssertTrue(app.buttons["GET Request Failed: \(HttpResponse.internalServerError.statusCode)"].waitForExistence(timeout: 5.0))
+    }
+    
     func testGET_badJSON() {
         server.addJSONStub(url: Paths.get, filename: "get_badJSON", method: .GET)
         
@@ -73,6 +83,16 @@ class SwifterSpikeUITests: XCTestCase {
         app.buttons["Send POST"].tap()
         
         XCTAssertTrue(app.buttons["My Mock POST Response"].waitForExistence(timeout: 5.0))
+    }
+    
+    func testPOST_internalServerError() {
+        server.addStub(url: Paths.post, method: .POST) { _ in
+            return HttpResponse.internalServerError
+        }
+
+        app.buttons["Send POST"].tap()
+
+        XCTAssertTrue(app.buttons["POST Request Failed: \(HttpResponse.internalServerError.statusCode)"].waitForExistence(timeout: 5.0))
     }
     
     func testPOST_badJSON() {

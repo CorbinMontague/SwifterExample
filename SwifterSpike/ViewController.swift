@@ -86,6 +86,13 @@ class ViewController: UIViewController {
         let task = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             DispatchQueue.main.async {
                 
+                // Check for valid response
+                if let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode < 200 || httpResponse.statusCode > 299 {
+                    self?.getButton.setTitle("GET Request Failed: \(httpResponse.statusCode)", for: .normal)
+                    return
+                }
+                
                 // Check for Error
                 if let error = error {
                     print("Error took place \(error)")
@@ -137,7 +144,14 @@ class ViewController: UIViewController {
         let task = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             DispatchQueue.main.async {
                 
-                // Check for Error
+                // Check for valid response
+                if let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode < 200 || httpResponse.statusCode > 299 {
+                    self?.postButton.setTitle("POST Request Failed: \(httpResponse.statusCode)", for: .normal)
+                    return
+                }
+                
+                // Check for Error or non successful repsonse
                 if let error = error {
                     print("Error took place \(error)")
                     self?.postButton.setTitle("POST Request Failed: \(error.localizedDescription)", for: .normal)

@@ -140,7 +140,7 @@
 		2942D01F2461A2F9001812DE /* SwifterSpikeUITests */ = {
 			isa = PBXGroup;
 			children = (
-				299F31982461A72C00C8C5ED /* Mocks */,
+				299F31982461A72C00C8C5ED /* MockData */,
 				2942D0312461A401001812DE /* Swifter */,
 				2942D0202461A2F9001812DE /* SwifterSpikeUITests.swift */,
 				2942D0222461A2F9001812DE /* Info.plist */,
@@ -156,7 +156,7 @@
 			path = Swifter;
 			sourceTree = "<group>";
 		};
-		299F31982461A72C00C8C5ED /* Mocks */ = {
+		299F31982461A72C00C8C5ED /* MockData */ = {
 			isa = PBXGroup;
 			children = (
 				29C8C4A12461B0D5006473A6 /* get_success.json */,
@@ -164,7 +164,7 @@
 				299F31992461A74400C8C5ED /* post_success.json */,
 				29716D652461E25B00B64CBC /* post_badJSON.json */,
 			);
-			path = Mocks;
+			path = MockData;
 			sourceTree = "<group>";
 		};
 		299F319B2461A78300C8C5ED /* Frameworks */ = {
