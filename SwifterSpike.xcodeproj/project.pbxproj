@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,11 @@
 		2942D00B2461A2F8001812DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2942D0092461A2F8001812DE /* LaunchScreen.storyboard */; };
 		2942D0162461A2F9001812DE /* SwifterSpikeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2942D0152461A2F9001812DE /* SwifterSpikeTests.swift */; };
 		2942D0212461A2F9001812DE /* SwifterSpikeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2942D0202461A2F9001812DE /* SwifterSpikeUITests.swift */; };
+		2942D0302461A3D9001812DE /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 2942D02F2461A3D9001812DE /* Swifter */; };
+		2942D0332461A40C001812DE /* MockServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2942D0322461A40C001812DE /* MockServer.swift */; };
+		299F319A2461A74400C8C5ED /* post_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 299F31992461A74400C8C5ED /* post_success.json */; };
+		299F319D2461A78300C8C5ED /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 299F319C2461A78300C8C5ED /* Swifter */; };
+		29C8C4A22461B0D5006473A6 /* get_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 29C8C4A12461B0D5006473A6 /* get_success.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,9 @@
 		2942D01C2461A2F9001812DE /* SwifterSpikeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwifterSpikeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2942D0202461A2F9001812DE /* SwifterSpikeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwifterSpikeUITests.swift; sourceTree = "<group>"; };
 		2942D0222461A2F9001812DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2942D0322461A40C001812DE /* MockServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServer.swift; sourceTree = "<group>"; };
+		299F31992461A74400C8C5ED /* post_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = post_success.json; sourceTree = "<group>"; };
+		29C8C4A12461B0D5006473A6 /* get_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = get_success.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2942D0302461A3D9001812DE /* Swifter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				299F319D2461A78300C8C5ED /* Swifter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +93,7 @@
 				2942D0142461A2F8001812DE /* SwifterSpikeTests */,
 				2942D01F2461A2F9001812DE /* SwifterSpikeUITests */,
 				2942CFFC2461A2F6001812DE /* Products */,
+				299F319B2461A78300C8C5ED /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,10 +133,36 @@
 		2942D01F2461A2F9001812DE /* SwifterSpikeUITests */ = {
 			isa = PBXGroup;
 			children = (
+				299F31982461A72C00C8C5ED /* Mocks */,
+				2942D0312461A401001812DE /* Swifter */,
 				2942D0202461A2F9001812DE /* SwifterSpikeUITests.swift */,
 				2942D0222461A2F9001812DE /* Info.plist */,
 			);
 			path = SwifterSpikeUITests;
+			sourceTree = "<group>";
+		};
+		2942D0312461A401001812DE /* Swifter */ = {
+			isa = PBXGroup;
+			children = (
+				2942D0322461A40C001812DE /* MockServer.swift */,
+			);
+			path = Swifter;
+			sourceTree = "<group>";
+		};
+		299F31982461A72C00C8C5ED /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				29C8C4A12461B0D5006473A6 /* get_success.json */,
+				299F31992461A74400C8C5ED /* post_success.json */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		299F319B2461A78300C8C5ED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +181,9 @@
 			dependencies = (
 			);
 			name = SwifterSpike;
+			packageProductDependencies = (
+				2942D02F2461A3D9001812DE /* Swifter */,
+			);
 			productName = SwifterSpike;
 			productReference = 2942CFFB2461A2F6001812DE /* SwifterSpike.app */;
 			productType = "com.apple.product-type.application";
@@ -180,6 +220,9 @@
 				2942D01E2461A2F9001812DE /* PBXTargetDependency */,
 			);
 			name = SwifterSpikeUITests;
+			packageProductDependencies = (
+				299F319C2461A78300C8C5ED /* Swifter */,
+			);
 			productName = SwifterSpikeUITests;
 			productReference = 2942D01C2461A2F9001812DE /* SwifterSpikeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -216,6 +259,9 @@
 				Base,
 			);
 			mainGroup = 2942CFF22461A2F6001812DE;
+			packageReferences = (
+				2942D02E2461A3D9001812DE /* XCRemoteSwiftPackageReference "swifter" */,
+			);
 			productRefGroup = 2942CFFC2461A2F6001812DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -249,6 +295,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29C8C4A22461B0D5006473A6 /* get_success.json in Resources */,
+				299F319A2461A74400C8C5ED /* post_success.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2942D0332461A40C001812DE /* MockServer.swift in Sources */,
 				2942D0212461A2F9001812DE /* SwifterSpikeUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -590,6 +639,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2942D02E2461A3D9001812DE /* XCRemoteSwiftPackageReference "swifter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/httpswift/swifter.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2942D02F2461A3D9001812DE /* Swifter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2942D02E2461A3D9001812DE /* XCRemoteSwiftPackageReference "swifter" */;
+			productName = Swifter;
+		};
+		299F319C2461A78300C8C5ED /* Swifter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2942D02E2461A3D9001812DE /* XCRemoteSwiftPackageReference "swifter" */;
+			productName = Swifter;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2942CFF32461A2F6001812DE /* Project object */;
 }
