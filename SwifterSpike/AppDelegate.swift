@@ -16,9 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return CommandLine.arguments.contains("--uitesting")
     }
     
-    /// The localhost port to mock requests against
+    /// The localhost port to send requests to if `isUITesting` is `true`.
     var port: Int? {
-        // it sucks we have to search through these linearly, but there are never very many CommandLine args when testing anyway.
         for arg in CommandLine.arguments {
             if arg.hasPrefix("--port") {
                 let portString = String(arg.suffix(4))

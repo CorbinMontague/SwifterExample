@@ -40,6 +40,7 @@ class MockServer {
     var port: in_port_t?
     
     /// Place responses here for standard (REST) API calls.
+    /// Use this to setup global stubs.
     let initialStubs: [HTTPStubInfo] = []
     
     /// Start up the Swifter tiny http server
@@ -52,39 +53,6 @@ class MockServer {
     func tearDown() {
         server.stop()
     }
-    
-    /// Start the HTTP server on the specified port number, in case of the port number
-    /// is being used it would try to find another free port.
-    ///
-    /// - Parameters:
-    ///   - port: The port number to start the server
-    ///   - maximumOfAttempts: The maximum number of attempts to find an unused port
-    private func startServer(port: in_port_t = 8080, maximumOfAttempts: Int = 5) {
-        // Stop the retrying when the attempts is zero
-        if maximumOfAttempts == 0 {
-            return
-        }
-        
-        do {
-            try server.start(port)
-            self.port = port
-            print("Server has started ( port = \(try server.port()) ). Try to connect now...")
-        } catch SocketError.bindFailed(let message) where message == "Address already in use" {
-            startServer(port: in_port_t.random(in: 8081..<10000), maximumOfAttempts: maximumOfAttempts - 1)
-        } catch {
-            print("Server start error: \(error)")
-        }
-    }
-    
-    
-    /// Setup initial stubs.
-    /// Use this to setup global stubs.
-    func setupInitialStubs() {
-        for stub in initialStubs {
-            addJSONStub(url: stub.url, filename: stub.jsonFilename, method: stub.method)
-        }
-    }
-    
     
     /// Stub the specified url with the provided JSON.
     /// - Parameters:
@@ -128,8 +96,42 @@ class MockServer {
         }
     }
     
+    // MARK: - Helpers
+    
+    /// Start the HTTP server on the specified port number, in case of the port number
+    /// is being used it would try to find another free port.
+    ///
+    /// - Parameters:
+    ///   - port: The port number to start the server
+    ///   - maximumOfAttempts: The maximum number of attempts to find an unused port
+    private func startServer(port: in_port_t = 8080, maximumOfAttempts: Int = 5) {
+        // Stop the retrying when the attempts is zero
+        if maximumOfAttempts == 0 {
+            return
+        }
+        
+        do {
+            try server.start(port)
+            self.port = port
+            print("Server has started ( port = \(try server.port()) ). Try to connect now...")
+        } catch SocketError.bindFailed(let message) where message == "Address already in use" {
+            startServer(port: in_port_t.random(in: 8081..<10000), maximumOfAttempts: maximumOfAttempts - 1)
+        } catch {
+            print("Server start error: \(error)")
+        }
+    }
+    
+    
+    /// Setup initial stubs.
+    /// Use this to setup global stubs.
+    private func setupInitialStubs() {
+        for stub in initialStubs {
+            addJSONStub(url: stub.url, filename: stub.jsonFilename, method: stub.method)
+        }
+    }
+    
     /// Attempt to convert the provided `Data` to JSON.
-    func dataToJSON(data: Data) -> Any? {
+    private func dataToJSON(data: Data) -> Any? {
         do {
             return try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
         } catch let myJSONError {
